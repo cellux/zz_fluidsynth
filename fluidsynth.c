@@ -4,15 +4,9 @@
 
 #include "audio.h"
 
-struct zz_fluidsynth_audio_source {
-  struct zz_audio_Source src;
-};
-
-int zz_fluidsynth_audio_callback(void *userdata,
-                                  float *stream,
-                                  int frames)
-{
+int zz_fluidsynth_audio_cb(void *userdata, float *stream, int len) {
   fluid_synth_t *synth = (fluid_synth_t*) userdata;
+  int frames = len / (2 * sizeof(float));
   /* [lr]{off,incr} args are offsets into float[] */
   fluid_synth_write_float(synth, frames,
                           stream, 0, 2,

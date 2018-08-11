@@ -126,11 +126,7 @@ struct zz_fluidsynth_synth {
   fluid_synth_t *synth;
 };
 
-struct zz_fluidsynth_audio_source {
-  struct zz_audio_Source src;
-};
-
-int zz_fluidsynth_audio_callback(void *userdata, float *stream, int frames);
+int zz_fluidsynth_audio_cb(void *userdata, float *stream, int len);
 
 ]]
 
@@ -321,12 +317,9 @@ function M.Synth(settings)
 end
 
 function M.AudioSource(synth)
-   local source = audio.Source("struct zz_fluidsynth_audio_source",
-                            ffi.C.zz_fluidsynth_audio_callback,
-                            synth.synth)
    return {
-      source = source, -- prevent GC
-      src = source.src,
+      callback = ffi.C.zz_fluidsynth_audio_cb,
+      userdata = synth.synth,
    }
 end
 
