@@ -257,7 +257,7 @@ function Synth_mt:set_channel_type(chan, type)
 end
 
 function Synth_mt:sfload(filename, reset_presets)
-   local id = fluid.fluid_synth_sfload(self.synth, filename, reset_presets)
+   local id = fluid.fluid_synth_sfload(self.synth, filename, reset_presets and 1 or 0)
    if id == fluid.FLUID_FAILED then
       ef("fluid_synth_sfload() failed: %s", self:error())
    end
