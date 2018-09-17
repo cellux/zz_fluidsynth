@@ -88,6 +88,8 @@ int fluid_synth_sfload(fluid_synth_t* synth, const char* filename, int reset_pre
 int fluid_synth_sfreload(fluid_synth_t* synth, unsigned int id);
 fluid_sfont_t* fluid_synth_get_sfont(fluid_synth_t* synth, unsigned int num);
 fluid_sfont_t* fluid_synth_get_sfont_by_id(fluid_synth_t* synth, unsigned int id);
+int fluid_synth_set_bank_offset(fluid_synth_t* synth, int sfont_id, int offset);
+int fluid_synth_get_bank_offset(fluid_synth_t* synth, int sfont_id);
 int fluid_synth_sfunload(fluid_synth_t* synth, unsigned int id, int reset_presets);
 
 void fluid_synth_set_sample_rate(fluid_synth_t* synth, float sample_rate);
@@ -262,6 +264,10 @@ function Synth_mt:sfload(filename, reset_presets)
       ef("fluid_synth_sfload() failed: %s", self:error())
    end
    return id
+end
+
+function Synth_mt:set_bank_offset(sfont_id, offset)
+   fluid.fluid_synth_set_bank_offset(self.synth, sfont_id, offset)
 end
 
 function Synth_mt:set_sample_rate(sample_rate)
